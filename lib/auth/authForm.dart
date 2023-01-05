@@ -11,8 +11,10 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
   ///---------------------------------------
   final _formkey = GlobalKey<FormState>();
-  final _email = '';
-  final _password = '';
+  var _email = '';
+  var _password = '';
+  var _username = '';
+  bool isSignupPage = true;
 
   ///--------------------------------------
   @override
@@ -36,21 +38,89 @@ class _AuthFormState extends State<AuthForm> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    key: ValueKey("email"),
-                    // validator: (value) {
-                    //   if (value.isEmpty || !value.contains('@')) {
-                    //     return 'incorrect email';
-                    //   }
-                    // },
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(8),
-                          borderSide: new BorderSide(),
-                        ),
-                        labelText: "abc@email.com",
-                        labelStyle: GoogleFonts.roboto()),
+                  if(isSignupPage)
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        key: ValueKey("username"),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'incorrect username';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _username = value!; //take away ! in case of error
+                        },
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(8),
+                              borderSide: new BorderSide(),
+                            ),
+                            labelText: "john doe",
+                            labelStyle: GoogleFonts.roboto()),
+                      ),
+                    ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      key: ValueKey("email"),
+                      validator: (value) {
+                        if (value!.isEmpty || !value.contains('@')) {
+                          return 'incorrect email';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _email = value!; //take away ! in case of error
+                      },
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(8),
+                            borderSide: new BorderSide(),
+                          ),
+                          labelText: "abc@gmail.com",
+                          labelStyle: GoogleFonts.roboto()),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      key: ValueKey("password"),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'please enter password';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _password = value!; //take away ! in case of error
+                      },
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(8),
+                            borderSide: new BorderSide(),
+                          ),
+                          labelText: "password",
+                          labelStyle: GoogleFonts.roboto()),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    width: double.infinity,
+                    height: 70,
+                   
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: isSignupPage? Text("Sign Up"):Text("LogIn"),
+                    ),
                   )
                 ],
               ),
